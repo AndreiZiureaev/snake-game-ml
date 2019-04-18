@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Snek</title>
+    <script src="nn.js" defer></script>
+    <script src="matrix.js" defer></script>
+    <script src="queue.js" defer></script>
+    <script src="snake.js" defer></script>
+    <script src="game.js" defer></script>
+    <style>
+        .sidebar {
+            float: left;
+            background-color: #c6c6c6;
+            border-radius: 10px;
+            padding: 5px 10px;
+        }
+        #canvas {
+            display: block;
+            float: left;
+            margin: 10px 10px 10px 0;
+        }
+        @media (max-width: 700px) {
+            #canvas {
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <div class="sidebar">
+        <table>
+            <tr><td>Movement:</td><td>Arrows</td></tr>
+            <tr><td>Turn left:</td><td>A</td></tr>
+            <tr><td>Turn right:</td><td>D</td></tr>
+            <tr><td>Toggle AI:</td><td>Enter</td></tr>
+        </table>
+        <p>
+            FPS:<br>
+            <input id="fps" type="range" min="1" max="100" step="1" value="5"><span id="fpsSpan"></span>
+        </p>
+        <p>
+            TPS:<br>
+            <input id="tps" type="range" min="1" max="16" step="1" value="1"><span id="tpsSpan"></span>
+        </p>
+        <p>
+            Generation:
+            <span id="generation">1</span>
+        </p>
+        <p>
+            Highest Score:
+            <span id="highest">0</span>
+        </p>
+    </div>
+</body>
+</html>
