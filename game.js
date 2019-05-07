@@ -1,119 +1,15 @@
 'use strict';
 
-// Game variables
-const SNAKES_PER_GENERATION = 1000;
-const PIXELS_PER_CELL = 30;
-
-const BACKGROUND_COLOR_OBJECT = { r: 0, g: 0, b: 0 };
-const BACKGROUND_COLOR = colorToText(BACKGROUND_COLOR_OBJECT);
-
-const TEXT_COLOR_OBJECT = { r: 239, g: 239, b: 239 };
-const TEXT_COLOR = colorToText(TEXT_COLOR_OBJECT);
-
-const PAUSED_FONT_SIZE = 15;
-const PAUSED_FONT = `bold ${PAUSED_FONT_SIZE}px sans-serif`;
-const PAUSED_FONT_ALIGN = 'center';
-const PAUSED_FONT_BASELINE = 'middle';
-
-const PAUSED_TEXT = 'Press Space to resume/pause';
-const FPS_TEXT = 'FPS: ';
-const TPS_TEXT = 'TPS: ';
-const AI_ON_TEXT = 'AI: on';
-const AI_OFF_TEXT = 'AI: off';
-
-const INFO_FONT_SIZE = 11;
-const INFO_FONT = `${INFO_FONT_SIZE}px sans-serif`;
-const INFO_FONT_MARGIN = 2;
-const INFO_FONT_ALIGN = 'left';
-const INFO_FONT_BASELINE = 'top';
-
-const canvas = document.getElementById('canvas');
-const ctx = this.canvas.getContext('2d', {
-    alpha: false
-});
-const tpsSlider = document.getElementById('tps');
-const tpsSpan = document.getElementById('tpsSpan');
-const fpsSlider = document.getElementById('fps');
-const fpsSpan = document.getElementById('fpsSpan');
-const generationSpan = document.getElementById('generation');
-const highestSpan = document.getElementById('highest');
-
-
-const widthPx = canvas.width;
-const heightPx = canvas.height;
-const centerPxX = Math.floor(widthPx / 2);
-const centerPxY = Math.floor(heightPx / 2);
-
-const widthCells = Math.floor(widthPx / PIXELS_PER_CELL);
-const heightCells = Math.floor(heightPx / PIXELS_PER_CELL);
-const centerCellX = Math.floor(widthCells / 2);
-const centerCellY = Math.floor(heightCells / 2);
-const totalCellsMinusOne = widthCells * heightCells - 1;
-const maxDist = Math.max(widthCells, heightCells);
-const widthCellsMinusOne = widthCells - 1;
-const heightCellsMinusOne = heightCells - 1;
-
-let frameTimestamp = 0;
-let tickTimestamp = 0;
-let actualTPS = 0;
-let frameID = 0;
-let tickID = 0;
-let generation = 1;
-let highestScore = 0;
-let bestSnake;
-let AI = true;
-let timePerTick;
-let timePerFrame;
-
-const buffer = [];
-
-let allSnakes = [];
-const activeSnakes = function* () {
-    for (let snake of allSnakes) {
-        if (snake.isActive) {
-            yield snake;
-        }
-    }
-};
-
-// Snake variables
-const TWOPI = Math.PI * 2;
-
-const UP = [0, -1];
-const UP_RIGHT = [1, -1];
-const RIGHT = [1, 0];
-const RIGHT_DOWN = [1, 1];
-const DOWN = [0, 1];
-const DOWN_LEFT = [-1, 1];
-const LEFT = [-1, 0];
-const LEFT_UP = [-1, -1];
-
-const SIMPLE = true;
-const VISION_RAY_LENGTH = 3;
-
-const HEAD_COLOR = { r: 10, g: 255, b: 10 };
-const TAIL_COLOR = { r: 10, g: 255, b: 150 };
-const EDIBLE_COLOR = { r: 255, g: 10, b: 150 };
-
-const DRAW_MARGIN = Math.floor(PIXELS_PER_CELL * 0.1);
-const CELL_SIZE = PIXELS_PER_CELL - DRAW_MARGIN * 2;
-
-const edibleIncrement = widthCells + heightCells;
-
-// Set state and listen for user actions
 setTPS();
 setFPS();
+setSnakesPerGeneration();
 initBuffer();
-addSnakes();
-drawPauseScreen();
+reset();
 
 tpsSlider.oninput = setTPS;
 fpsSlider.oninput = setFPS;
 document.addEventListener('keydown', event => {
     switch (event.key) {
-        case ' ':
-            pauseUnpause();
-            break;
         case 'ArrowUp':
             changeDirection(UP);
             break;
@@ -138,11 +34,46 @@ document.addEventListener('keydown', event => {
         default:
             return;
     }
-    event.preventDefault();
+
+    if (frameID !== 0) event.preventDefault();
 });
 
-function colorToText(col) {
-    return `rgb(${col.r},${col.g},${col.b})`;
+canvas.addEventListener('click', () => pauseUnpause());
+
+resetButton.addEventListener('click', () => reset());
+
+sampleJSONButton.addEventListener('click', () => {
+    inputJSON.value = SAMPLE_JSON;
+});
+
+bestJSONButton.addEventListener('click', () => {
+    inputJSON.value = (bestSnake) ? bestSnake.brain.serialize() : 'No best snake yet.';
+});
+
+loadJSONButton.addEventListener('click', () => {
+    try {
+        allSnakes[0].brain = NeuralNetwork.deserialize(inputJSON.value);
+    } catch(e) {
+        inputJSON.value = "Couldn't load JSON: " + e.message;
+        return;
+    }
+    inputJSON.value = 'JSON loaded into the first snake.';
+});
+
+function reset() {
+    highestScore = 0;
+    highestSpan.innerHTML = highestScore;
+
+    generation = 1;
+    generationSpan.innerHTML = generation;
+
+    if (frameID !== 0) {
+        pause();
+    }
+
+    drawPauseScreen();
+    setSnakesPerGeneration();
+    resetSnakes();
 }
 
 function setTPS() {
@@ -155,6 +86,20 @@ function setFPS() {
     const value = fpsSlider.value;
     fpsSpan.innerHTML = value;
     timePerFrame = Math.floor(1000 / value);
+}
+
+function setSnakesPerGeneration() {
+    let spg = snakesInput.value;
+
+    if (spg > snakesInput.max) {
+        spg = snakesInput.max;
+        snakesInput.value = spg;
+    } else if (spg < snakesInput.min) {
+        spg = snakesInput.min;
+        snakesInput.value = spg;
+    }
+
+    snakesPerGeneration = parseInt(spg);
 }
 
 function initBuffer() {
@@ -175,8 +120,10 @@ function resetBuffer() {
     }
 }
 
-function addSnakes() {
-    for (let i = 0; i < SNAKES_PER_GENERATION; i++) {
+function resetSnakes() {
+    allSnakes = [];
+
+    for (let i = 0; i < snakesPerGeneration; i++) {
         allSnakes.push(new Snake());
     }
 }
@@ -277,7 +224,7 @@ function newGeneration() {
 
     calculateFitness();
 
-    for (let i = 0; i < SNAKES_PER_GENERATION; i++) {
+    for (let i = 0; i < snakesPerGeneration; i++) {
         newSnakes.push(selectSnake());
     }
 
@@ -313,26 +260,29 @@ function selectSnake() {
 }
 
 function pauseUnpause() {
-
-    // unpause
     if (frameID === 0) {
-        ctx.font = INFO_FONT;
-        ctx.textAlign = INFO_FONT_ALIGN;
-        ctx.textBaseline = INFO_FONT_BASELINE;
-
-        frameID = setTimeout(draw, 0);
-        tickID = setTimeout(calculate, timePerTick);
-
-        // pause
+        unpause();
     } else {
-        clearTimeout(tickID);
-        tickID = 0;
-
-        clearTimeout(frameID);
-        frameID = 0;
-
+        pause();
         drawPauseText();
     }
+}
+
+function unpause() {
+    ctx.font = INFO_FONT;
+    ctx.textAlign = INFO_FONT_ALIGN;
+    ctx.textBaseline = INFO_FONT_BASELINE;
+
+    frameID = setTimeout(draw, 0);
+    tickID = setTimeout(calculate, timePerTick);
+}
+
+function pause() {
+    clearTimeout(tickID);
+    tickID = 0;
+
+    clearTimeout(frameID);
+    frameID = 0;
 }
 
 function drawPauseScreen() {
