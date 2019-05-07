@@ -23,6 +23,7 @@ const FPS_TEXT = 'FPS: ';
 const TPS_TEXT = 'TPS: ';
 const AI_ON_TEXT = 'AI: on';
 const AI_OFF_TEXT = 'AI: off';
+const AI_OFF_COLOR = '#ff2020';
 
 const INFO_FONT_SIZE = 11;
 const INFO_FONT = `${INFO_FONT_SIZE}px sans-serif`;
@@ -39,6 +40,7 @@ const fpsSlider = document.getElementById('fps');
 const fpsSpan = document.getElementById('fpsSpan');
 const generationSpan = document.getElementById('generation');
 const highestSpan = document.getElementById('highest');
+const aiSpan = document.getElementById('aiSpan');
 
 const snakesInput = document.getElementById('snakes');
 const resetButton = document.getElementById('reset');

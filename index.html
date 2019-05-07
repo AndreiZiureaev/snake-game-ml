@@ -59,9 +59,16 @@
 </head>
 <body>
     <h1>Machine Learning Demo</h1>
-    <canvas id="canvas" width="300" height="300"></canvas>
+    <canvas id="canvas" width="300" height="300" tabindex="0"></canvas>
     <aside class="sidebar">
         <table>
+            <p>
+                <span id="aiSpan">AI: on</span>
+            </p>
+            <tr>
+                <td>Toggle AI (to control the snakes):</td>
+                <td>Space</td>
+            </tr>
             <tr>
                 <td>Movement:</td>
                 <td>Arrows</td>
@@ -73,10 +80,6 @@
             <tr>
                 <td>Turn right:</td>
                 <td>D</td>
-            </tr>
-            <tr>
-                <td>Toggle AI:</td>
-                <td>Enter</td>
             </tr>
         </table>
         <p>
@@ -105,9 +108,9 @@
         <section class="sectionJSON">
             Load JSON data into a snake:
             <textarea id="inputJSON"></textarea>
-            <input id="sampleJSON" type="button" title="View the JSON of the best snake I got." value="View Sample JSON">
-            <input id="bestJSON" type="button" title="View the JSON of the best snake so far in this simulation." value="View Best Snake's JSON">
-            <input id="loadJSON" type="button" title="Load the JSON into the first snake. Hopefully it will survive..." value="Load JSON">
+            <input id="sampleJSON" type="button" title="View the JSON of the best snake I got when I ran this for half an hour." value="Sample">
+            <input id="bestJSON" type="button" title="View the JSON of the best snake so far in this simulation." value="Best So Far">
+            <input id="loadJSON" type="button" title="Load the JSON into the first snake. Hopefully it will survive..." value="Load">
         </section>
     </div>
 </body>

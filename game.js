@@ -9,6 +9,10 @@ reset();
 tpsSlider.oninput = setTPS;
 fpsSlider.oninput = setFPS;
 document.addEventListener('keydown', event => {
+    if (frameID === 0) {
+        return;
+    }
+
     switch (event.key) {
         case 'ArrowUp':
             changeDirection(UP);
@@ -28,17 +32,33 @@ document.addEventListener('keydown', event => {
         case 'd':
             right();
             break;
-        case 'Enter':
-            AI = !AI;
+        case ' ':
+            event.preventDefault();
+            if (AI) {
+                AI = false;
+                aiSpan.innerHTML = AI_OFF_TEXT;
+                aiSpan.style.color = AI_OFF_COLOR;
+            } else {
+                AI = true;
+                aiSpan.innerHTML = AI_ON_TEXT;
+                aiSpan.removeAttribute('style');
+            }
             break;
         default:
             return;
     }
 
-    if (frameID !== 0) event.preventDefault();
+    if (!AI) {
+        event.preventDefault();
+    }
 });
 
 canvas.addEventListener('click', () => pauseUnpause());
+canvas.addEventListener('keypress', e => {
+    if (e.key === 'Enter') {
+        pauseUnpause();
+    }
+});
 
 resetButton.addEventListener('click', () => reset());
 
@@ -61,15 +81,15 @@ loadJSONButton.addEventListener('click', () => {
 });
 
 function reset() {
+    if (frameID !== 0) {
+        pause();
+    }
+
     highestScore = 0;
     highestSpan.innerHTML = highestScore;
 
     generation = 1;
     generationSpan.innerHTML = generation;
-
-    if (frameID !== 0) {
-        pause();
-    }
 
     drawPauseScreen();
     setSnakesPerGeneration();
@@ -89,17 +109,16 @@ function setFPS() {
 }
 
 function setSnakesPerGeneration() {
-    let spg = snakesInput.value;
+    let spg = parseInt(snakesInput.value);
 
-    if (spg > snakesInput.max) {
-        spg = snakesInput.max;
-        snakesInput.value = spg;
-    } else if (spg < snakesInput.min) {
-        spg = snakesInput.min;
-        snakesInput.value = spg;
+    if (isNaN(spg) || spg < snakesInput.min) {
+        spg = parseInt(snakesInput.min);
+    } else if (spg > snakesInput.max) {
+        spg = parseInt(snakesInput.max);
     }
 
-    snakesPerGeneration = parseInt(spg);
+    snakesInput.value = spg;
+    snakesPerGeneration = spg;
 }
 
 function initBuffer() {
