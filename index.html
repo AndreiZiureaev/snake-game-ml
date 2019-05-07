@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Snek</title>
     <script src="nn.js" defer></script>
     <script src="matrix.js" defer></script>
@@ -54,6 +55,13 @@
             margin: 0.5rem 0;
             color: #f0f0f0;
             background-color: #0f0f0f;
+        }
+
+        @media (max-width: 30rem) {
+            #reset {
+                float: none;
+                margin-top: 0.5rem;
+            }
         }
     </style>
 </head>
