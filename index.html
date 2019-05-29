@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -14,10 +13,38 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a class="home" href="https://andreiziureaev.com">Home</a>
+    <nav>
+        <a href="https://andreiziureaev.com">Home</a>
+        <a href="https://github.com/AndreiZiureaev/snake-game-ml" target="_blank">GitHub</a>
+    </nav>
+    <a href="#" class="info">
+        <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg" id="svg8" version="1.1" viewBox="0 0 8.4666667 8.4666667" height="32" width="32">
+            <defs id="defs2" />
+            <metadata id="metadata5">
+                <rdf:RDF>
+                    <cc:Work rdf:about="">
+                        <dc:format>image/svg+xml</dc:format>
+                        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                        <dc:title></dc:title>
+                    </cc:Work>
+                </rdf:RDF>
+            </metadata>
+            <g transform="translate(0,-288.53333)" id="layer1">
+                <path id="path815" transform="matrix(0.26458333,0,0,0.26458333,0,288.53333)"
+                    d="M 15.982422 0.75 A 15.267857 15.267857 0 0 0 0.71484375 16.017578 A 15.267857 15.267857 0 0 0 15.982422 31.285156 A 15.267857 15.267857 0 0 0 31.25 16.017578 A 15.267857 15.267857 0 0 0 15.982422 0.75 z M 16.197266 3.2871094 C 16.780599 3.2871094 17.259983 3.4748264 17.636719 3.8515625 C 18.013455 4.2161458 18.203125 4.6901042 18.203125 5.2734375 C 18.203125 5.8567708 18.013455 6.3381076 17.636719 6.7148438 C 17.259983 7.0794271 16.780599 7.2617188 16.197266 7.2617188 C 15.613932 7.2617188 15.12717 7.0794271 14.738281 6.7148438 C 14.361545 6.3381076 14.173828 5.8567708 14.173828 5.2734375 C 14.173828 4.6901042 14.361545 4.2161458 14.738281 3.8515625 C 15.12717 3.4748264 15.613932 3.2871094 16.197266 3.2871094 z M 16.671875 12.037109 L 17.728516 12.037109 C 17.850043 12.037109 17.910156 12.097222 17.910156 12.21875 L 17.910156 26.857422 C 17.910156 26.97895 17.972222 27.039063 18.09375 27.039062 L 20.517578 27.294922 C 20.651259 27.294922 20.71875 27.362413 20.71875 27.496094 L 20.71875 28.425781 C 20.71875 28.547309 20.651259 28.607422 20.517578 28.607422 L 12.095703 28.607422 C 11.962023 28.607422 11.894531 28.547309 11.894531 28.425781 L 11.894531 27.496094 C 11.894531 27.362413 11.962023 27.294922 12.095703 27.294922 L 14.703125 27.039062 C 14.824653 27.039062 14.884766 26.97895 14.884766 26.857422 L 14.884766 14.535156 C 14.884766 14.413628 14.824653 14.351563 14.703125 14.351562 L 12.003906 14.042969 C 11.882378 14.042969 11.822266 13.980903 11.822266 13.859375 L 11.822266 13.003906 C 11.822266 12.882378 11.871528 12.820313 11.96875 12.820312 L 16.453125 12.074219 C 16.501736 12.062066 16.574653 12.049262 16.671875 12.037109 z "
+                    style="stroke-width:2.43" />
+            </g>
+        </svg>
+        <aside class="boxed">
+            <p>This demo uses pure JavaScript, the 2D Canvas API and a very simple neural network library to make a computer learn how to play Snake. It uses a genetic algorithm to evolve the snakes. The higher a snake's score, the higher its chance to pass its genes to the next generation.</p>
+            <p>Leave the simulation running at maximum ticks per second for 10 - 30 minutes to get somewhat decent snakes. Or just load the provided JSON into a snake and see if it can evolve any further.</p>
+        </aside>
+    </a>
     <h1>Machine Learning Demo</h1>
     <canvas id="canvas" width="300" height="300" tabindex="0"></canvas>
-    <aside class="sidebar">
+    <aside class="sidebar boxed">
         <p>
             <span id="aiSpan">AI: on</span>
         </p>
