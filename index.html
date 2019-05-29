@@ -11,79 +11,7 @@
     <script src="definitions.js" defer></script>
     <script src="snake.js" defer></script>
     <script src="game.js" defer></script>
-    <style>
-        body {
-            margin-top: 1rem;
-            color: #f0f0f0;
-            background-color: #0f0f0f;
-            text-align: center;
-            font-family: sans-serif;
-        }
-
-        section {
-            margin: 1rem 0;
-        }
-
-        table {
-            margin: auto;
-            text-align: left;
-        }
-
-        a {
-            text-decoration: none;
-            color: #f0f0f0;
-        }
-
-        .home {
-            position: absolute;
-            padding-top: 1.8rem;
-            top: 0;
-            left: 1rem;
-        }
-
-        .sidebar {
-            position: relative;
-            margin: 1.5rem auto;
-            max-width: 30rem;
-            border-radius: 0.5rem;
-            padding: 1rem 0.5rem 1px;
-            background-color: #303030;
-        }
-
-        .generationSettings {
-            text-align: left;
-        }
-
-        #canvas {
-            display: block;
-            margin: auto;
-        }
-
-        #reset {
-            float: right;
-        }
-
-        #inputJSON {
-            box-sizing: border-box;
-            resize: none;
-            width: 100%;
-            height: 10rem;
-            margin: 0.5rem 0;
-            color: #f0f0f0;
-            background-color: #0f0f0f;
-        }
-
-        @media (max-width: 35rem) {
-            .home {
-                position: static;
-            }
-
-            #reset {
-                float: none;
-                margin-top: 0.5rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <a class="home" href="https://andreiziureaev.com">Home</a>
@@ -113,11 +41,11 @@
         </table>
         <p>
             FPS: <span id="fpsSpan"></span><br>
-            <input id="fps" type="range" min="1" max="100" step="1" value="5">
+            <input id="fps" type="range" min="1" max="100" step="1" value="30">
         </p>
         <p>
             TPS: <span id="tpsSpan"></span><br>
-            <input id="tps" type="range" min="1" max="16" step="1" value="1">
+            <input id="tps" type="range" min="1" max="16" step="1" value="3">
         </p>
         <p>
             Generation:
@@ -130,7 +58,7 @@
         <hr>
         <section class="generationSettings">
             Snakes Per Generation:
-            <input id="snakes" type="number" min="1" max="10000" value="1000">
+            <input id="snakes" type="number" min="1" max="10000" value="100">
             <input id="reset" type="button" title="Reset the whole simulation, including the best snake." value="Apply and Reset">
         </section>
         <hr>
