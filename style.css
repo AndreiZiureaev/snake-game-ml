@@ -48,9 +48,10 @@ nav a {
 }
 
 .info aside {
+    display: none;
     position: absolute;
     top: 150%;
-    right: -999rem;
+    right: 0;
     width: 70vw;
     max-width: 20rem;
     padding: 1rem 2rem;
@@ -60,7 +61,7 @@ nav a {
 }
 
 .info:hover aside, .info:focus aside {
-    right: 0;
+    display: block;
 }
 
 .sidebar {
