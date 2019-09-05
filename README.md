@@ -3,7 +3,7 @@
 Using [Toy-Neural-Network-JS](https://github.com/CodingTrain/Toy-Neural-Network-JS)
 by [shiffman](https://github.com/shiffman).
 
-Check out [a live demo](http://andreiziureaev.com/ml-demo).
+Check out [a live demo](http://green-fort.uk/zand/ml-demo).
 
 This demo uses pure JavaScript, the 2D Canvas API and a very simple neural network library to make a computer learn how to play Snake. It uses a genetic algorithm to evolve the snakes. The higher a snake's score, the higher its chance to pass its genes to the next generation.
 
